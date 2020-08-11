@@ -1,11 +1,29 @@
+function output = Hw12P2A(Elem,Hkr)
+% Elem = 'LHNMYS';
+% Elem = 'OneComp';
+% Hr = 1e-9;
+% Hkr = Hr;
 %% CE 221 Nonlinear Structural Analysis, Homework Set 12, Problem 1
 
 %% Cyclic Load Analysis of Cantilever Column with Concentrated Plasticity Element
 
 %% Clear memory, close any open windows and insert units
-CleanStart
+if exist ('XYZ','var');  clear XYZ; end
+if exist ('BOUN','var'); clear BOUN; end
+if exist ('CON','var');  clear CON; end
+if exist ('ElemData','var'); clear ElemData; end
+if exist ('Model','var'); clear Model; end
+if exist ('State','var'); clear State; end
+if exist ('Post','var');  clear Post; end
+if exist ('Loading','var'); clear Loading; end
+
+if exist ('SecData','var'); clear SecData; end
+if exist ('MatData','var'); clear MatData; end
+if exist ('Shape','var');   clear Shape; end
 
 Units
+E  = 29000*ksi;
+fy = 60*ksi;
 
 %% Specify length of cantilever column
 L = 6*ft;
@@ -21,16 +39,17 @@ BOUN(1,:) = [1 1 1];
 BOUN(2,:) = [1 0 0];
 
 %% Element name: 2d nonlinear frame element with concentrated inelasticity
-ElemName{1} = 'Inel2dFrm_wOneComp';
+ElemName{1} = ['Inel2dFrm_w', Elem];
 % ElemName{1} = 'Inel2dFrm_wLHNMYS';
 
 % generate Model data structure
 Model = Create_Model (XYZ,CON,BOUN,ElemName);
 
 %% Element properties
-E  = 29000*ksi;
-fy = 60*ksi;
-SecProp = AISC_Section('W14x426');
+SecGeom = 'W14x426';
+SecProp = AISC_Section(SecGeom);
+SecProp.fy = fy;
+SecProp.E  = E ;
 A  = SecProp.A *in^2;
 I  = SecProp.Ix*in^4;
 Z  = SecProp.Zx*in^3;
@@ -44,13 +63,13 @@ Np = A*fy;
 Mp = Z*fy;
 
 % Hr = 0.05;     % hardening ratio for multi-component models
-Hr = 1e-9;       % hardening ratio for multi-component models
+% Hr = 1e-9;       % hardening ratio for multi-component models
 ElemData{1}.E   = E;
 ElemData{1}.A   = A;
 ElemData{1}.I   = I;
 ElemData{1}.Np  = Np;
 ElemData{1}.Mp  = Mp;
-ElemData{1}.Hkr = Hr;
+ElemData{1}.Hkr = Hkr;
 
 %% Default values for missing element properties
 ElemData = Structure ('chec',Model,ElemData);
@@ -90,10 +109,16 @@ Loading.DspHst.Time = [0 (1:no_Rev)*T_Rev];
 Tmax = no_Rev*T_Rev;
 
 %% Cyclic analysis for imposed force/displacement with time history
-tic
+time_start = tic;
 SolStrat.IncrStrat.Deltat = Deltat;
 S_MultiStep_wLoadHist
-toc
+time_elapsed = toc(time_start);
 
 %% post-processing
-Post_Hw12P2
+output = Post_Hw12P2(Model,SecProp,Post);
+output('time') = time_elapsed;
+output('Hkr') = Hkr;
+output('Elem') = Elem;
+
+output = jsonencode(output);
+
