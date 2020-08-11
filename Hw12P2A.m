@@ -1,11 +1,11 @@
 function output = Hw12P2A(Elem,Hkr)
+% Copyright(c) 2020 Filip C. Filippou
+% CE 221 Nonlinear Structural Analysis, Homework Set 12, Problem 1
+% Cyclic Load Analysis of Cantilever Column with Concentrated Plasticity Element
 % Elem = 'LHNMYS';
 % Elem = 'OneComp';
 % Hr = 1e-9;
 % Hkr = Hr;
-%% CE 221 Nonlinear Structural Analysis, Homework Set 12, Problem 1
-
-%% Cyclic Load Analysis of Cantilever Column with Concentrated Plasticity Element
 
 %% Clear memory, close any open windows and insert units
 if exist ('XYZ','var');  clear XYZ; end
