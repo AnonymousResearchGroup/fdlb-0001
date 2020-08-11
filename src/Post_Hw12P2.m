@@ -1,3 +1,7 @@
+% ===========================================================================================
+%  Copyright(c) 2020 Professor Filip C. Filippou (filippou@berkeley.edu)
+%  Department of Civil and Environmental Engineering, UC Berkeley
+% ===========================================================================================
 %% post-processing of results for Problem 2 of Homework 12
 
 % plot parameters

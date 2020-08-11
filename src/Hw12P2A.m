@@ -1,3 +1,8 @@
+% ===========================================================================================
+%  Copyright(c) 2020 Professor Filip C. Filippou (filippou@berkeley.edu)
+%  Department of Civil and Environmental Engineering, UC Berkeley
+% ===========================================================================================
+
 %% CE 221 Nonlinear Structural Analysis, Homework Set 12, Problem 1
 
 %% Cyclic Load Analysis of Cantilever Column with Concentrated Plasticity Element
