@@ -113,7 +113,7 @@ function output = Hw12P2A(Elem,Hkr)
     time_start = tic;
     SolStrat.IncrStrat.Deltat = Deltat;
     % S_MultiStep_wLoadHist
-    [State,Post] = MultiStep_wLoadHist(Model,ElemData,Loading,SolStrat,State,{},{'Kf', 'KL'});
+    [State,Post] = MultiStep_wLoadHist(Model,ElemData,Loading,SolStrat,State,{},{'Kf'});
     time_elapsed = toc(time_start);
     
     %% post-processing
@@ -122,10 +122,10 @@ function output = Hw12P2A(Elem,Hkr)
     output('Hkr') = Hkr;
     output('Elem') = Elem;
     for i = 1:length(Post), Kf{i} = full(Post(i).Kf); end
-    % for i = 1:length(Post), Kf22(i) = Post(i).Kf(2); end
-    % 
-    output('Kf') = Kf
-    % output('Kf22') = Kf22
+    Post = rmfield(Post,'Kf');
+
+    output('Kf') = Kf;
+    output('Post') = Post;
     
     output = jsonencode(output);
 end    
