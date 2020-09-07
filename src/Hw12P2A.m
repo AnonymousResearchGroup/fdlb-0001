@@ -39,7 +39,11 @@ function output = Hw12P2A(Elem,Hkr)
     BOUN(2,:) = [1 0 0];
     
     %% Element name: 2d nonlinear frame element with concentrated inelasticity
-    ElemName{1} = ['Inel2dFrm_w', Elem];
+    if contains(Elem,'BInel')
+        ElemName{1} = 'Inel2dFrm';
+    else
+        ElemName{1} = ['Inel2dFrm_w', Elem];
+    end
     % ElemName{1} = 'Inel2dFrm_wLHNMYS';
     
     % generate Model data structure
@@ -70,6 +74,9 @@ function output = Hw12P2A(Elem,Hkr)
     ElemData{1}.Np  = Np;
     ElemData{1}.Mp  = Mp;
     ElemData{1}.Hkr = Hkr;
+    if contains(Elem,'BInel')
+        ElemData{1}.BElemTyp = Elem;
+    end
     
     %% Default values for missing element properties
     ElemData = Structure ('chec',Model,ElemData);
