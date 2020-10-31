@@ -1,0 +1,12 @@
+URL: https://github.com/FEDEASLab/fdlb-0004
+abstract: Cyclic loading of an inelastic cantilever column using a one component series
+  beam model.
+archive: $FEDEASLab_DEV
+archive_location: Gallery/fdlb-0004
+collection-title: Inelastic frames
+id: fdlb-0004
+medium: CE221
+programming-language: Matlab
+system: CE221
+title: Hw12P2A
+type: book
